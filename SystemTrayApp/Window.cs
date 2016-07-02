@@ -143,8 +143,13 @@ namespace SystemTrayApp {
                 startNzbHydraProcess(true);
             } else if (process.ExitCode == 0) {
                 //Apparently it was shut down so we just quit
-                log("NZBHydra ahut down with exit code 0. Exiting tray tool.");
+                log("NZBHydra shut down with exit code 0. Exiting tray tool.");
                 Application.Exit();
+            } else if (process.ExitCode == 1073807364) {
+                //Upon restart or shut down of windows
+                log("NZBHydra was closed by windows. Exiting tray tool.");
+                Application.Exit();
+            
             } else {
                 log("NZBHydra shut down with unknown exit code " + process.ExitCode);
                 DialogResult result = MessageBox.Show("NZB Hydra exited with unknown error code " + process.ExitCode + ". Do you want to restart? Otherwise I'll just quit.", "NZB Hydra crashed", MessageBoxButtons.YesNo);
